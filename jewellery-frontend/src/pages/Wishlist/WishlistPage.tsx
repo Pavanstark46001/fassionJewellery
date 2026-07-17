@@ -36,11 +36,12 @@ function WishlistCard({ product }: { product: Product }) {
           type="button"
           variant="outline"
           size="sm"
-          className="flex-1 gap-1.5"
+          className="min-w-0 flex-1 gap-1.5 overflow-hidden"
           onClick={handleMoveToCart}
           disabled={removeFromWishlist.isPending}
         >
-          <ShoppingBag className="h-3.5 w-3.5" strokeWidth={1.5} /> Move to Cart
+          <ShoppingBag className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
+          <span className="truncate">Move to Cart</span>
         </Button>
         <Button
           type="button"
@@ -49,7 +50,7 @@ function WishlistCard({ product }: { product: Product }) {
           aria-label="Remove from wishlist"
           onClick={handleRemove}
           disabled={removeFromWishlist.isPending}
-          className="text-ink/50 hover:text-red-600"
+          className="shrink-0 text-ink/50 hover:text-red-600"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
         </Button>

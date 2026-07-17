@@ -191,8 +191,14 @@ export default function ProductDetailPage() {
               </button>
             </div>
 
-            <Button size="lg" className="flex-1 gap-2" disabled={!inStock} onClick={handleAddToCart}>
-              <ShoppingBag className="h-4 w-4" strokeWidth={1.5} /> Add to Cart
+            <Button
+              size="lg"
+              className="min-w-0 flex-1 gap-2 overflow-hidden px-6 sm:px-10"
+              disabled={!inStock}
+              onClick={handleAddToCart}
+            >
+              <ShoppingBag className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+              <span className="truncate">Add to Cart</span>
             </Button>
 
             <button
