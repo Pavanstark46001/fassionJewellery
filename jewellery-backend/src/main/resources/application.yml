@@ -1,0 +1,67 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: jewellery-backend
+  datasource:
+    url: jdbc:postgresql://192.168.100.142:5432/jewellery_store
+    username: ${DB_USERNAME:jewellery_app}
+    # NOTE: default password below is for local dev convenience only - this is a
+    # brand-new, low-stakes dev database seeded with placeholder catalog data.
+    # Override with the DB_PASSWORD env var for any non-local environment.
+    password: ${DB_PASSWORD:JewelleryApp@2026}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    # Redis is required for caching to actually work. Spring Boot's default
+    # Lettuce connection factory connects lazily, so the app will still start
+    # even if Redis is unreachable - cache reads/writes will just fail (see
+    # CacheResilienceConfig, which logs and swallows those failures instead of
+    # turning them into 500s). To get real caching locally, run:
+    #   docker run -p 6379:6379 redis
+    # or use the docker-compose.yml provided at the repo root.
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-me-dev-secret-please-override-in-prod-min-32-chars}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  # Base URL of the public storefront (Sprint 7: SEO). Used to build absolute
+  # <loc> URLs in sitemap.xml and the Sitemap: line in robots.txt. Override in
+  # non-local environments once a real domain exists.
+  frontend-base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
+  cors:
+    # Comma-separated allowed browser origins (see SecurityConfig). Override
+    # for Docker/production deployments where the frontend isn't on :5173/:5174.
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: when-authorized
+  health:
+    redis:
+      # Caching is best-effort in this app (see CacheResilienceConfig) - a Redis
+      # outage should not flip the whole service to DOWN in /actuator/health.
+      enabled: false

@@ -1,0 +1,7 @@
+target/
+*.log
+.idea/
+*.iml
+backend-out.log
+backend-err.log
+compile-check.log

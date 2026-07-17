@@ -1,0 +1,30 @@
+# Backend (Maven / Java)
+jewellery-backend/target/
+jewellery-backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+# Frontend (Node / Vite)
+jewellery-frontend/node_modules/
+jewellery-frontend/dist/
+jewellery-frontend/.vite/
+jewellery-frontend/*.local
+
+# Env / secrets
+.env
+.env.local
+*.env
+application-local.yml
+application-local.yaml
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*

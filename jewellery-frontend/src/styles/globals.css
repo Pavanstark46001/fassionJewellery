@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:wght@300;400;500;600&display=swap');
+
+@import 'tailwindcss';
+
+@theme {
+  /* -- Luxury palette -------------------------------------------------- */
+  --color-gold: #c9a961;
+  --color-gold-light: #e2cb8f;
+  --color-gold-dark: #a8853f;
+  --color-ivory: #faf7f2;
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1a1a1a;
+
+  /* -- Type ------------------------------------------------------------ */
+  --font-serif: 'Playfair Display', 'Times New Roman', serif;
+  --font-sans: 'Poppins', system-ui, sans-serif;
+
+  /* -- Motion ------------------------------------------------------------ */
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* -- Radii ------------------------------------------------------------ */
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
+  --animate-accordion-down: accordion-down 0.3s var(--ease-luxury);
+  --animate-accordion-up: accordion-up 0.3s var(--ease-luxury);
+  --animate-shimmer: shimmer 2.2s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-black/5;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    @apply bg-ivory text-ink font-sans antialiased;
+    font-feature-settings: 'kern' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-gold) 35%, transparent);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  .eyebrow {
+    @apply inline-block text-xs font-medium uppercase tracking-[0.35em] text-gold-dark;
+  }
+
+  .gold-divider {
+    @apply h-px w-16 bg-gradient-to-r from-gold to-transparent;
+  }
+
+  .section-padding {
+    @apply px-6 py-24 md:px-12 md:py-32 lg:px-20;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Admin back-office panel: deliberately utilitarian, not "boutique" — override the
+   storefront's global h1-h4 serif rule so admin headings use the plain sans body font.
+   Left unlayered so it wins over the @layer base rule regardless of selector specificity. */
+.admin-panel h1,
+.admin-panel h2,
+.admin-panel h3,
+.admin-panel h4 {
+  font-family: var(--font-sans);
+}
+
+/* Hide the native cursor on desktop when the custom luxury cursor is active */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+@media (pointer: coarse) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: auto !important;
+  }
+}
