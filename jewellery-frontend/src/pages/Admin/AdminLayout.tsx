@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Navigate, Outlet, useLocation } from 'react-router-dom'
 import {
   CalendarHeart,
@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LayoutTemplate,
   LogOut,
+  Menu,
   Newspaper,
   Package,
   PackageSearch,
@@ -16,6 +17,7 @@ import {
   ShoppingBag,
   Sparkles,
   Users,
+  X,
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
@@ -50,6 +52,7 @@ export default function AdminLayout() {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const mainRef = useRef<HTMLElement>(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   useEffect(() => {
     if (currentUser) dispatch(setUser(currentUser))
@@ -61,6 +64,13 @@ export default function AdminLayout() {
   useEffect(() => {
     mainRef.current?.scrollTo(0, 0)
   }, [location.pathname, location.search])
+
+  // The sidebar renders as an off-canvas drawer below `lg:` (see the aside
+  // below) - close it on every navigation so it doesn't stay open over the
+  // next page.
+  useEffect(() => {
+    setIsSidebarOpen(false)
+  }, [location.pathname])
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: '/admin' }} replace />
@@ -83,10 +93,33 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-panel flex h-screen overflow-hidden bg-[#f6f6f5] font-sans text-ink">
-      <aside className="flex w-60 shrink-0 flex-col overflow-y-auto bg-ink text-ivory">
-        <div className="flex h-16 items-center gap-2 border-b border-white/10 px-5">
-          <ShoppingBag className="h-5 w-5 text-gold" strokeWidth={1.75} />
-          <span className="text-sm font-semibold tracking-wide">Sri Sai Admin</span>
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={cn(
+          'fixed inset-y-0 left-0 z-40 flex w-60 shrink-0 flex-col overflow-y-auto bg-ink text-ivory transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] lg:static lg:translate-x-0',
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
+        )}
+      >
+        <div className="flex h-16 items-center justify-between gap-2 border-b border-white/10 px-5">
+          <div className="flex items-center gap-2">
+            <ShoppingBag className="h-5 w-5 text-gold" strokeWidth={1.75} />
+            <span className="text-sm font-semibold tracking-wide">Sri Sai Admin</span>
+          </div>
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setIsSidebarOpen(false)}
+            className="text-ivory/60 transition-colors hover:text-ivory lg:hidden"
+          >
+            <X className="h-5 w-5" strokeWidth={1.75} />
+          </button>
         </div>
         <nav className="flex flex-1 flex-col gap-1 px-3 py-4">
           {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
@@ -128,24 +161,36 @@ export default function AdminLayout() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-black/10 bg-white px-6">
-          <div className="text-sm text-ink/50">Back office</div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-ink/80">{user?.fullName ?? user?.email}</span>
-            <Link to="/" className="text-sm text-gold-dark underline underline-offset-4">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-black/10 bg-white px-4 sm:px-6">
+          <div className="flex min-w-0 items-center gap-3">
+            <button
+              type="button"
+              aria-label="Open menu"
+              onClick={() => setIsSidebarOpen(true)}
+              className="shrink-0 text-ink/70 transition-colors hover:text-ink lg:hidden"
+            >
+              <Menu className="h-5 w-5" strokeWidth={1.75} />
+            </button>
+            <div className="hidden truncate text-sm text-ink/50 sm:block">Back office</div>
+          </div>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            <span className="hidden max-w-[160px] truncate text-sm text-ink/80 sm:inline">
+              {user?.fullName ?? user?.email}
+            </span>
+            <Link to="/" className="hidden text-sm text-gold-dark underline underline-offset-4 sm:inline">
               Back to Store
             </Link>
             <button
               type="button"
               onClick={logout}
-              className="flex items-center gap-1.5 rounded-md border border-black/10 px-3 py-1.5 text-sm text-ink/70 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+              className="flex items-center gap-1.5 rounded-md border border-black/10 px-2.5 py-1.5 text-sm text-ink/70 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600 sm:px-3"
             >
               <LogOut className="h-3.5 w-3.5" strokeWidth={1.75} />
-              Logout
+              <span className="hidden sm:inline">Logout</span>
             </button>
           </div>
         </header>
-        <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden p-6">
+        <main ref={mainRef} className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6">
           <Outlet />
         </main>
       </div>
