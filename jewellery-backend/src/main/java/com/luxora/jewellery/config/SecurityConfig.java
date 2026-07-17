@@ -91,7 +91,7 @@ public class SecurityConfig {
     // dev server's two possible ports; production/Docker deployments must
     // override this with the real frontend origin(s) via the CORS_ALLOWED_ORIGINS
     // env var (e.g. http://localhost:8080 for the docker-compose nginx frontend).
-    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:5174}")
+    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:5174,https://fassion-jewellery.vercel.app}")
     private String allowedOrigins;
 
     @Bean
