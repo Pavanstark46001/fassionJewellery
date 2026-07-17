@@ -31,17 +31,16 @@ function WishlistCard({ product }: { product: Product }) {
   return (
     <div className="flex flex-col gap-3">
       <ProductCard product={product} showWishlist={false} />
-      <div className="flex gap-2">
+      <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
         <Button
           type="button"
           variant="outline"
           size="sm"
-          className="min-w-0 flex-1 gap-1.5 overflow-hidden"
+          className="w-full gap-1.5 sm:w-auto sm:flex-1"
           onClick={handleMoveToCart}
           disabled={removeFromWishlist.isPending}
         >
-          <ShoppingBag className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
-          <span className="truncate">Move to Cart</span>
+          <ShoppingBag className="h-3.5 w-3.5" strokeWidth={1.5} /> Move to Cart
         </Button>
         <Button
           type="button"
@@ -50,7 +49,7 @@ function WishlistCard({ product }: { product: Product }) {
           aria-label="Remove from wishlist"
           onClick={handleRemove}
           disabled={removeFromWishlist.isPending}
-          className="shrink-0 text-ink/50 hover:text-red-600"
+          className="self-center shrink-0 text-ink/50 hover:text-red-600 sm:self-auto"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
         </Button>

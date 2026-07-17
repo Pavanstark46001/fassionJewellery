@@ -168,7 +168,7 @@ export default function ProductDetailPage() {
           {product.shortDescription && <p className="mt-6 leading-relaxed text-ink/65">{product.shortDescription}</p>}
           {product.description && <p className="mt-3 leading-relaxed text-ink/65">{product.description}</p>}
 
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <div className="flex items-center rounded-full border border-black/10">
               <button
                 type="button"
@@ -191,16 +191,6 @@ export default function ProductDetailPage() {
               </button>
             </div>
 
-            <Button
-              size="lg"
-              className="min-w-0 flex-1 gap-2 overflow-hidden px-6 sm:px-10"
-              disabled={!inStock}
-              onClick={handleAddToCart}
-            >
-              <ShoppingBag className="h-4 w-4 shrink-0" strokeWidth={1.5} />
-              <span className="truncate">Add to Cart</span>
-            </Button>
-
             <button
               type="button"
               aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
@@ -209,6 +199,15 @@ export default function ProductDetailPage() {
             >
               <Heart className={cn('h-5 w-5', wishlisted && 'fill-gold-dark text-gold-dark')} strokeWidth={1.5} />
             </button>
+
+            <Button
+              size="lg"
+              className="w-full flex-1 gap-2 sm:w-auto"
+              disabled={!inStock}
+              onClick={handleAddToCart}
+            >
+              <ShoppingBag className="h-4 w-4" strokeWidth={1.5} /> Add to Cart
+            </Button>
           </div>
 
           <div className="mt-10 border-t border-black/5 pt-8">
