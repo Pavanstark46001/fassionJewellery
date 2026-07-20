@@ -15,6 +15,10 @@ export const api = axios.create({
   timeout: 10_000,
   headers: {
     'Content-Type': 'application/json',
+    // No-op against any real host; required when API_BASE_URL points at an
+    // ngrok free-tier tunnel, which otherwise intercepts requests with an
+    // HTML interstitial page that breaks CORS.
+    'ngrok-skip-browser-warning': 'true',
   },
 })
 
