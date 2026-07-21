@@ -1,12 +1,17 @@
-cd C:\Users\vmuser\fassionJewellery\jewellery-backend
+# Redeploys the backend: stop -> pull -> rebuild -> restart.
+# Run from the repo root: powershell -ExecutionPolicy Bypass -File .\redeploy.ps1
 
-# Auto-detect JAVA_HOME from java.exe on PATH (mvnw needs this set explicitly, PATH alone isn't enough)
-$javaExe = (Get-Command java -ErrorAction SilentlyContinue).Source
-if (-not $javaExe) {
-    Write-Error "Could not find java.exe on PATH. Aborting."
+cd $PSScriptRoot\jewellery-backend
+
+# Ask the JVM itself for its real home (works correctly even when the first
+# `java` on PATH is Oracle's javapath shim, which has no real JDK layout and
+# breaks path-guessing approaches).
+$javaHomeLine = & java -XshowSettings:properties -version 2>&1 | Select-String "java\.home"
+if (-not $javaHomeLine) {
+    Write-Error "Could not determine JAVA_HOME from 'java -XshowSettings:properties'. Aborting."
     exit 1
 }
-$env:JAVA_HOME = Split-Path (Split-Path $javaExe -Parent) -Parent
+$env:JAVA_HOME = ($javaHomeLine -split "=")[1].Trim()
 Write-Output "Using JAVA_HOME: $env:JAVA_HOME"
 
 # 1. Stop the currently running backend (whoever is listening on 9090)
