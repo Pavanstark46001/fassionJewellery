@@ -10,23 +10,9 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { AdminPagination } from '@/components/admin/AdminPagination'
 import { formatPrice } from '@/lib/utils'
-import type { StockStatus } from '@/types/admin'
+import { STOCK_LABELS, STOCK_VARIANTS } from '@/lib/stockStatus'
 
 const PAGE_SIZE = 10
-
-const STOCK_LABELS: Record<StockStatus, string> = {
-  IN_STOCK: 'In Stock',
-  LOW_STOCK: 'Low Stock',
-  OUT_OF_STOCK: 'Out of Stock',
-  COMING_SOON: 'Coming Soon',
-}
-
-const STOCK_VARIANTS: Record<StockStatus, 'success' | 'gold' | 'danger' | 'muted'> = {
-  IN_STOCK: 'success',
-  LOW_STOCK: 'gold',
-  OUT_OF_STOCK: 'danger',
-  COMING_SOON: 'muted',
-}
 
 export default function AdminProductListPage() {
   const [page, setPage] = useState(0)

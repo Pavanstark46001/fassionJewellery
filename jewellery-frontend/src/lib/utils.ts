@@ -6,7 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-const BRAND_SUFFIX = 'Sri Sai Fashion Jewellery'
+/** Single source of truth for the store name - reused for page titles, the
+ * admin sidebar, and the storefront footer so a rebrand only means editing
+ * this one line. */
+export const STORE_NAME = 'Sri Sai Fashion Jewellery'
+const BRAND_SUFFIX = STORE_NAME
 
 /**
  * Builds a <title> string for a detail page. CMS-authored `metaTitle` values

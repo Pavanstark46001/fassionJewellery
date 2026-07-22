@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { STORE_NAME } from '@/lib/utils'
 import type { FooterLinkColumn } from '@/types/domain'
 
 const COLUMNS: FooterLinkColumn[] = [
@@ -100,7 +101,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-ivory/10 pt-8 text-xs text-ivory/40 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} Sri Sai Fashion Jewellery. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {STORE_NAME}. All rights reserved.</p>
           <div className="flex items-center gap-5">
             {LEGAL_LINKS.map((link) => (
               <Link key={link.label} to={link.href} className="text-ivory/40 transition-colors duration-300 hover:text-ivory">

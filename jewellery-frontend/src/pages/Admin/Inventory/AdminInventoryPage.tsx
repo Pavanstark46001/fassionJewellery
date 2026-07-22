@@ -14,27 +14,14 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { AdminPagination } from '@/components/admin/AdminPagination'
-import type { AdminProductInventory, ManualMovementType, StockStatus } from '@/types/admin'
+import { STOCK_LABELS, STOCK_VARIANTS } from '@/lib/stockStatus'
+import type { AdminProductInventory, ManualMovementType } from '@/types/admin'
 
 const PAGE_SIZE = 10
 const MOVEMENTS_PAGE_SIZE = 10
 
 const inputClass = 'h-10 rounded-md px-3'
 const labelClass = 'mb-1.5 block text-xs font-medium uppercase tracking-wide text-ink/50'
-
-const STOCK_LABELS: Record<StockStatus, string> = {
-  IN_STOCK: 'In Stock',
-  LOW_STOCK: 'Low Stock',
-  OUT_OF_STOCK: 'Out of Stock',
-  COMING_SOON: 'Coming Soon',
-}
-
-const STOCK_VARIANTS: Record<StockStatus, 'success' | 'gold' | 'danger' | 'muted'> = {
-  IN_STOCK: 'success',
-  LOW_STOCK: 'gold',
-  OUT_OF_STOCK: 'danger',
-  COMING_SOON: 'muted',
-}
 
 const MOVEMENT_TYPE_OPTIONS: { value: ManualMovementType; label: string }[] = [
   { value: 'PURCHASE_ENTRY', label: 'Purchase Entry' },

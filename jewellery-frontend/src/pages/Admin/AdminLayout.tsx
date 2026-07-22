@@ -23,7 +23,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { useAppDispatch } from '@/store/hooks'
 import { setUser } from '@/store/authSlice'
-import { cn } from '@/lib/utils'
+import { cn, STORE_NAME } from '@/lib/utils'
 
 const NAV_ITEMS = [
   { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -108,9 +108,9 @@ export default function AdminLayout() {
         )}
       >
         <div className="flex h-16 items-center justify-between gap-2 border-b border-white/10 px-5">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-gold" strokeWidth={1.75} />
-            <span className="text-sm font-semibold tracking-wide">Sri Sai Admin</span>
+          <div className="flex min-w-0 items-center gap-2">
+            <ShoppingBag className="h-5 w-5 shrink-0 text-gold" strokeWidth={1.75} />
+            <span className="truncate text-sm font-semibold tracking-wide">{STORE_NAME} Admin</span>
           </div>
           <button
             type="button"

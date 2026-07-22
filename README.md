@@ -2,6 +2,13 @@
 
 A premium artificial-jewellery e-commerce platform: a luxury customer storefront, a full admin back-office, and an in-store billing/POS system, built across 8 incremental sprints.
 
+## cmd to deploy application
+
+cd C:\Users\vmuser\fassionJewellery>
+git pull
+powershell -ExecutionPolicy Bypass -File .\redeploy.ps1
+
+
 ## Structure
 
 ```

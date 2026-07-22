@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Heart, LogOut, Menu, Package, Search, ShoppingBag, User, Wallet, X } from 'lucide-react'
+import { Heart, LayoutDashboard, LogOut, Menu, Package, Search, ShoppingBag, User, Wallet, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { MagneticButton } from '@/components/common/MagneticButton'
 import { useAppSelector } from '@/store/hooks'
@@ -37,7 +37,7 @@ export function Header() {
   const navigate = useNavigate()
 
   const cartCount = useAppSelector(selectCartItemCount)
-  const { isAuthenticated, user, logout } = useAuth()
+  const { isAuthenticated, isAdmin, user, logout } = useAuth()
 
   const isSolid = !isHomepage || scrolled
 
@@ -179,6 +179,15 @@ export function Header() {
                 >
                   <p className="truncate font-serif text-sm text-ink">{user?.fullName ?? 'Account'}</p>
                   <p className="truncate text-xs text-ink/50">{user?.email}</p>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsAccountOpen(false)}
+                      className="mt-3 flex w-full items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-xs font-medium uppercase tracking-wider text-gold-dark transition-colors hover:bg-gold/20"
+                    >
+                      <LayoutDashboard className="h-3.5 w-3.5" strokeWidth={1.5} /> Admin Dashboard
+                    </Link>
+                  )}
                   <Link
                     to="/orders"
                     onClick={() => setIsAccountOpen(false)}
@@ -281,6 +290,15 @@ export function Header() {
               </Link>
               {isAuthenticated ? (
                 <>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsMobileOpen(false)}
+                      className="border-b border-black/5 py-4 text-sm uppercase tracking-[0.2em] text-gold-dark"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
                   <Link
                     to="/orders"
                     onClick={() => setIsMobileOpen(false)}
